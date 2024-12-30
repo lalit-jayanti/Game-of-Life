@@ -11,6 +11,9 @@ A cellular automaton is life-like if it satisfies the following:
 
 The project provides a framework for simulating and experimenting with different birth and survival rules of Life-Like Cellular Automata. Below are a few examples.
 
+
+
+
 <p float="left">
     <img src="results/replicator.gif" title="B1357/S1357 Replicator" style="width: 25%;"/>
     <img src="results/life.gif" title="B3/S23 Life" style="width: 25%;"/>
