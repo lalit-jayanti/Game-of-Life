@@ -9,16 +9,22 @@ def conv2d(board, kernel):
 
 class gameOfLife:
 
-    def __init__(self, height, width, x, y):
+    def __init__(self, height: int, width: int,
+                 birth_rules: list[int], survival_rules: list[int]) -> None:
+        """ Game of Life
 
+        Args:
+        - height: Number of rows in the board.
+        - width: Number of columns in the board.
+        - birth_rules: List of neighbour counts required to set a cell to alive/on.
+        - survival_rules: List of neighbour counts required to keep a cell alive/on.
+        """
         self.height = height
         self.width = width
 
-        u = {i for i in range(9)}
-
-        # Rule Bx/Sy
-        self.x = list(set(x))
-        self.ny = list(u - set(y))
+        valid_neighbors = set(range(9))
+        self.birth_rules = list(set(birth_rules) & valid_neighbors)
+        self.death_rules = list(valid_neighbors - set(survival_rules))
 
         self.board = np.random.randint(low=0, high=2,
                                        size=(self.height, self.width))
@@ -26,36 +32,42 @@ class gameOfLife:
                                 [1, 0, 1],
                                 [1, 1, 1]], dtype=np.uint8)
 
-    def set_board(self, board):
+    def set_board(self, board: np.ndarray) -> None:
+        """Set a custom board state
+
+        Args:
+        - board: 2D numpy array of shape (height, width) with values 0 (dead), 1 (alive)
+        """
+
         self.board = board.astype(np.uint8)
 
-    def step(self):
+    def step(self) -> np.ndarray:
+        """Perform one step in Game of Life from current state
 
-        num_neighbors = conv2d(self.board, self.kernel)
+        Returns:
+        - The updated board state
+        """
 
-        next_board = np.where((np.isin(self.board, [0])
-                               & np.isin(num_neighbors, self.x)),
-                              1, self.board)
+        neighbor_count = conv2d(self.board, self.kernel)
 
-        next_board = np.where((np.isin(self.board, [1])
-                               & np.isin(num_neighbors, self.ny)),
-                              0, next_board)
+        birth_indices = (self.board == 0) & np.isin(
+            neighbor_count, self.birth_rules)
 
-        self.board = next_board
+        death_indices = (self.board == 1) & np.isin(
+            neighbor_count, self.death_rules)
+
+        self.board[birth_indices] = 1
+        self.board[death_indices] = 0
 
         return self.board
 
-
 def main():
 
-    width = 100
-    height = 100
+    gol = gameOfLife(height=1000,
+                     width=1000,
+                     birth_rules=[4, 6, 7, 8],
+                     survival_rules=[3, 5, 6, 7, 8])
 
-    gol = gameOfLife(height=100,
-                     width=100,
-                     x = [3],
-                     y = [2,3])
-    
     plt.figure()
 
     for t in range(1000):
