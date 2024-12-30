@@ -15,13 +15,15 @@ The project provides a framework for simulating and experimenting with different
 
 
 <p float="left">
-    <img src="results/replicator.gif" title="B1357/S1357 Replicator" style="width: 25%;"/>
-    <img src="results/life.gif" title="B3/S23 Life" style="width: 25%;"/>
-    <img src="results/highlife.gif" title="B36/S23 HighLife" style="width: 25%;"/>
+    <img src="results/diamoeba.gif" title="B35678/S5678 Diamoeba" style="width: 45%;"/>
+    <img src="results/life.gif" title="B3/S23 Life" style="width: 45%;"/>
 </p>
 
 <p float="left">
-    <img src="results/anneal.gif" title="B4678/S35678 Anneal" style="width: 25%;"/>
-    <img src="results/day_n_night.gif" title="B3678/S34678 Day & Night" style="width: 25%;"/>
-    <img src="results/diamoeba.gif" title="B35678/S5678 Diamoeba" style="width: 25%;"/>
+    <img src="results/highlife.gif" title="B36/S23 HighLife" style="width: 45%;"/>
+    <img src="results/anneal.gif" title="B4678/S35678 Anneal" style="width: 45%;"/>
+</p>
+<p float="left">
+    <img src="results/day_n_night.gif" title="B3678/S34678 Day & Night" style="width: 45%;"/>
+    <img src="results/replicator.gif" title="B1357/S1357 Replicator" style="width: 45%;"/>
 </p>
