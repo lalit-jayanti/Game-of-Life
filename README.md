@@ -20,6 +20,6 @@ The project provides a framework for simulating and experimenting with different
   <tr>
     <td> <img src="results/anneal.gif" title="B4678/S35678 Anneal" style="width: 100%;"/></td>
     <td><img src="results/day_n_night.gif" title="B3678/S34678 Day & Night" style="width: 100%;"/></td>
-    <td> <img src="results/replicator.gif" title="B1357/S1357 Replicator" style="width: 100%;"/><td>
+    <td> <img src="results/replicator.gif" title="B1357/S1357 Replicator" style="width: 100%;"/></td>
   </tr>
 </table> 
