@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.signal import convolve2d
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter, FFMpegWriter
 
 
 def conv2d(board, kernel):
@@ -32,14 +33,19 @@ class gameOfLife:
                                 [1, 0, 1],
                                 [1, 1, 1]], dtype=np.uint8)
 
-    def set_board(self, board: np.ndarray) -> None:
+    def reset(self, board: np.ndarray = None) -> None:
         """Set a custom board state
+
+        If no argument is passed, board is set to a random state
 
         Args:
         - board: 2D numpy array of shape (height, width) with values 0 (dead), 1 (alive)
         """
-
-        self.board = board.astype(np.uint8)
+        if board is None:
+            self.board = np.random.randint(low=0, high=2,
+                                           size=(self.height, self.width))
+        else:
+            self.board = board.astype(np.uint8)
 
     def step(self) -> np.ndarray:
         """Perform one step in Game of Life from current state
@@ -61,21 +67,42 @@ class gameOfLife:
 
         return self.board
 
+    def save(self, fname: str, steps: int, cmap: str) -> None:
+        """Save as an animation (gif)
+
+        Args:
+        - fname: Path to file
+        - steps: Number of steps to simulate
+        - cmap: Colormap
+        """
+
+        fig, ax = plt.subplots(figsize=(6, 6))
+
+        ax = plt.axes([0, 0, 1, 1], frameon=False)
+        ax.get_xaxis().set_visible(False)
+        ax.get_yaxis().set_visible(False)
+        plt.autoscale(tight=True)
+
+        img = ax.imshow(self.board, cmap=cmap)
+
+        def update(frame):
+            img.set_data(self.board)
+            self.step()
+            return [img]
+
+        animation = FuncAnimation(fig, update, frames=steps)
+        gif_writer = PillowWriter(fps=16)
+        animation.save(fname, writer=gif_writer)
+
+
 def main():
 
-    gol = gameOfLife(height=1000,
-                     width=1000,
-                     birth_rules=[4, 6, 7, 8],
-                     survival_rules=[3, 5, 6, 7, 8])
+    gol = gameOfLife(height=100,
+                     width=100,
+                     birth_rules=[3],
+                     survival_rules=[2, 3])
 
-    plt.figure()
-
-    for t in range(1000):
-        gol.step()
-        plt.clf()
-        plt.axis('off')
-        plt.imshow(gol.board, cmap='gray')
-        plt.waitforbuttonpress(0.01)
+    gol.save('test.gif', steps=64, cmap='gray')
 
 
 if __name__ == '__main__':
