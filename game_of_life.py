@@ -67,13 +67,14 @@ class gameOfLife:
 
         return self.board
 
-    def save(self, fname: str, steps: int, cmap: str) -> None:
+    def save(self, fname: str, steps: int, cmap: str, fps: int = 16) -> None:
         """Save as an animation (gif)
 
         Args:
         - fname: Path to file
         - steps: Number of steps to simulate
         - cmap: Colormap
+        - fps: Framerate
         """
 
         fig, ax = plt.subplots(figsize=(6, 6))
@@ -83,7 +84,7 @@ class gameOfLife:
         ax.get_yaxis().set_visible(False)
         plt.autoscale(tight=True)
 
-        img = ax.imshow(self.board, cmap=cmap)
+        img = ax.imshow(self.board, cmap=cmap, interpolation='none')
 
         def update(frame):
             img.set_data(self.board)
@@ -91,7 +92,7 @@ class gameOfLife:
             return [img]
 
         animation = FuncAnimation(fig, update, frames=steps)
-        gif_writer = PillowWriter(fps=16)
+        gif_writer = PillowWriter(fps=fps)
         animation.save(fname, writer=gif_writer)
 
 
